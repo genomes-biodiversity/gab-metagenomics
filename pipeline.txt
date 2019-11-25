@@ -48,7 +48,8 @@ grep -i "\[.*virus" "$Name".contigs.fa.nr.tophit ## Show viruses in nr blast res
 
 ### Task 2.3 taxonomy lineage annotation
 cat "$Name".contigs.fa.nr.tophit | cut -f3 | sort -u | grep -v "^[0-9]" | grep -v -e '^$' > "$Name".accession_list.txt  ## make accession list
-grep -F -f "$Name".accession_list.txt $access2taxid/prot.accession2taxid | tee "$Name".taxid_table.txt  | cut -f3 -d$'\t' | sort -u | tee "$Name".taxid_list.txt | python3 $taxonomist/ncbi.taxonomist.py --sep "|" -d | sed "s/|/\t/" > "$Name".lineage_table.txt	## Create taxonomy ID table and list, and retrive taxonomy lineage
+## Create taxonomy ID table and list, and retrieve taxonomy lineage
+grep -F -f "$Name".accession_list.txt $access2taxid/prot.accession2taxid | tee "$Name".taxid_table.txt  | cut -f3 -d$'\t' | sort -u | tee "$Name".taxid_list.txt | python3 $taxonomist/ncbi.taxonomist.py --sep "|" -d | sed "s/|/\t/" > "$Name".lineage_table.txt
 
 ## Adding taxonomy lineage to nr blast results
 #Note - can't use variables in sqlite3, therefore use complete file name within sqlite3
@@ -113,7 +114,8 @@ rm *.gz.md5 #remove md5 files
 	#python3: https://www.python.org/download/releases/3.0/
 	#sqlite3: https://sqlite.org/index.html
 	#seqtk: https://github.com/lh3/seqtk
-	#ncbi-taxonomist: https://github.sydney.edu.au/jpb/ncbi-taxonomy
+	#ncbi-taxonomist: https://gitlab.com/janpb/simbiont (course branch):
+	git clone --recurse-submodules -b course https://gitlab.com/janpb/simbiont.git
 	#bowtie2: http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
 	#samtools: http://samtools.sourceforge.net
 ##Edit variables in pipeline script according to input file names and local setup for paths
